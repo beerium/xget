@@ -1,4 +1,9 @@
 xget
 ====
 
-a download tool using muti computers so as to improve download speed
+xget is x download tool using muti computers so as to improve download speed
+under linux.
+
+
+
+
