@@ -1,0 +1,28 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	Makefile	/^CC = g++$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -Wall -g$/;"	m
+CLIENT	Makefile	/^CLIENT = xgclient.o main.o$/;"	m
+LINK	Makefile	/^LINK = $(CC)$/;"	m
+OUTPUT	Makefile	/^OUTPUT = xget $/;"	m
+UTILS	Makefile	/^UTILS = utils.o$/;"	m
+__UTILS_H__	utils.h	2;"	d
+__XGCLIENT__	xgclient.h	2;"	d
+_hostname	xgclient.h	/^                        char _hostname[512];$/;"	m	class:xget::xgclient
+_server_ip	xgclient.h	/^                        char _server_ip[16];$/;"	m	class:xget::xgclient
+_url	xgclient.h	/^                        char _url[4096]; $/;"	m	class:xget::xgclient
+download	xgclient.cc	/^void xgclient::download()$/;"	f	class:xgclient
+gethostnamebyurl	utils.cc	/^        int gethostnamebyurl(char *url, char *ret)$/;"	f	namespace:xget
+getipbyname	utils.cc	/^        int getipbyname(char *name, char *ret)$/;"	f	namespace:xget
+inited	xgclient.h	/^                        bool inited;$/;"	m	class:xget::xgclient
+main	main.cc	/^int main(int argc, char **argv)$/;"	f
+xgclient	xgclient.cc	/^xgclient::xgclient(const char *url)$/;"	f	class:xgclient
+xgclient	xgclient.h	/^        class xgclient$/;"	c	namespace:xget
+xget	utils.cc	/^namespace xget {$/;"	n	file:
+xget	utils.h	/^namespace xget$/;"	n
+xget	xgclient.h	/^namespace xget {$/;"	n
+~xgclient	xgclient.cc	/^xgclient::~xgclient()$/;"	f	class:xgclient
