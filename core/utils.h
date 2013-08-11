@@ -3,7 +3,7 @@
 
 namespace xget
 {
-        int getipbyname(char *name, char *ret);
-        int gethostnamebyurl(char *url, char *ret);
+        int getipbyname(const char *name, char *ret);
+        int gethostnamebyurl(const char *url, char *ret);
 }
 #endif

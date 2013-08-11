@@ -15,3 +15,11 @@
 *.exe
 *.out
 *.app
+
+# Others
+run
+ld.sh
+tags
+xget
+temp
+test

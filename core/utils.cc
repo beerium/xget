@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 namespace xget {
-        int getipbyname(char *name, char *ret)
+        int getipbyname(const char *name, char *ret)
         {
                 if (name == NULL || ret == NULL) return -1;
 
@@ -21,7 +21,7 @@ namespace xget {
                 return 1;
         }
 
-        int gethostnamebyurl(char *url, char *ret)
+        int gethostnamebyurl(const char *url, char *ret)
         {
                 if (ret == NULL) 
                 {
@@ -29,10 +29,10 @@ namespace xget {
                 }
 
                 const char *prefix = "http://";
-                char *p = url;
+                char *p = (char *)url;
 
                 if (strncmp(url, prefix, strlen(prefix)) == 0) {
-                        p = url + strlen(prefix);
+                        p = (char*)url + strlen(prefix);
                 } 
 
                 strcpy(ret, strtok(p, "/"));

@@ -7,29 +7,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "xgclient.h"
-#include "utils.h"
+#include "../core/utils.h"
+#include "../core/http.h"
 
 using namespace std;
 using namespace xget;
 
-xgclient::xgclient(const char *url)
+XgClient::XgClient()
 {
-        strcpy(_url, url);
-        if(gethostnamebyurl(_url, _hostname) > 0) {
-                if (getipbyname(_hostname, _server_ip) > 0) {
-                        inited = true;
-                }
-        }
 }
 
-xgclient::~xgclient()
+XgClient::~XgClient()
 {
 
 }
 
-void xgclient::download()
+void XgClient::Download(const char *url)
 {
-       cout << _hostname << endl;
-       cout << _server_ip << endl;
+       HttpHandler *http = new HttpHandler(url);
+       int fileSize = http->GetFileSize();
+       cout << "FileSize = " << fileSize << endl;
 }
 

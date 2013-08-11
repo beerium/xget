@@ -2,7 +2,7 @@ CC = g++
 CXXFLAGS = -Wall -g -fPIC
 LINK = $(CC)
 	
-CORE = net.o 
+CORE = http.o 
 UTILS = utils.o
 
 OUTPUT = libxgcore.so 
