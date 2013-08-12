@@ -109,7 +109,6 @@ namespace xget
 
         char *HttpHandler::GetFile(const char *range)
         {
-
                 return NULL;
         }
 }
