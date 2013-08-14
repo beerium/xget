@@ -74,12 +74,14 @@ namespace xget
                 printf("req:\n%s", req);
                 int res = write(_fd, req, strlen(req));
 
+                if (res < 0) return -1;
+
                 char buf[4096];
                 memset(buf, 0, sizeof(buf));
                 int c = 0;
 
                 while(1) {
-                        sleep(2);
+                        usleep(1000);
                         int n = recv(_fd, buf + c, sizeof(buf), 0);
 
                         if (n <= 0) {

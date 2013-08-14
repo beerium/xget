@@ -3,12 +3,21 @@
 #include <sys/epoll.h>
 
 namespace xget {
+
+        ev_t *EpollServer::ev;
+
         EpollServer::EpollServer(void *data) 
         {
-                EpollServer(data, 1024);
+                EpollServer::CreateServer(data, 1024);
         }
 
-        EpollServer::EpollServer(void *data, size_t size) {
+        EpollServer::EpollServer(void *data, size_t size) 
+        {
+                EpollServer::CreateServer(data, size);
+        }
+
+        void EpollServer::CreateServer(void *data, size_t size)
+        {
                 int fd = epoll_create(1024);
 
                 if (fd > 0) {
@@ -26,24 +35,23 @@ namespace xget {
                         }
 
                         ev->events_size = size;
-                        ev->events = (ev_file_item_t*)calloc(size, sizeof(ev_file_item_t));
+                        ev->events = 
+                                (ev_file_item_t*)calloc(size, sizeof(ev_file_item_t));
                         if (!ev->events) {
                                 free(ev->api_data);
                                 free(ev);
                         }
                 }
-
         }
 
         EpollServer::~EpollServer()
         {
-                free(ev);
         }
 
         int EpollServer::AddFileItem(int fd, int mask, void *d,
                         ev_file_func *rf, ev_file_func *wf) 
         {
-                if (fd >= ev->events_size) {
+                if (fd >= (int)ev->events_size) {
                         return -1;
                 }
 
@@ -67,12 +75,11 @@ namespace xget {
                 }
 
                 return -1;
-
         }
 
         int EpollServer::DelFileItem(int fd)
         {
-                if (fd >= ev->events_size) return -1;
+                if (fd >= (int)ev->events_size) return -1;
                 ev_file_item_t *fi = ev->events + fd;
                 if (fi->mask == 0) return 0;
 
@@ -83,16 +90,7 @@ namespace xget {
                 epev.events = fi->events;
                 epev.data.fd = fd;
                 return epoll_ctl(ev->fd, op, fd, &epev);
-        }
-
-        void EpollServer::Receive(ev_file_item_t *fi)
-        {
-
-        }
-
-        void EpollServer::Send(ev_file_item_t *fi)
-        {
-
+                return 0;
         }
 
         void EpollServer::Run()

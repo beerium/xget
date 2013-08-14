@@ -3,11 +3,12 @@ CXXFLAGS = -Wall -g
 LINK = $(CC)
 	
 CLIENT = xgclient.o main.o
+CORE = ../core/http.o ../core/ep_server.o ../core/utils.o
 
 OUTPUT = xget 
 
-test: $(CLIENT) $(UTILS)
-	$(LINK) $(UTILS) $(CLIENT) -o $(OUTPUT) -L../bin/ -lxgcore
+client: $(CORE) $(CLIENT) 
+	$(LINK) $(CORE) $(CLIENT) -o $(OUTPUT) #-L../bin -lxgcore
 	cp ./xget ../bin/
 
 clean:

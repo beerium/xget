@@ -1,0 +1,44 @@
+// for xget client
+
+// 101
+message GetServerListRequest
+{
+        required int32 Id = 1; 
+}
+
+message GetServerListResponse
+{
+        required int32 Id = 1; 
+        repeated AvailableServer ServerList = 2;
+}
+
+message AvailableServer
+{
+        required string Ip = 1;
+        required int32 Port = 2;
+}
+
+
+// for xget server 
+
+// 201
+message RegisterRequest
+{
+        required string Ip = 1;
+        required int32 Port = 2;
+}
+
+message RegisterResponse 
+{
+        required int32 Status = 1;
+}
+
+// for xget cli and server 
+
+message DownloadRequest
+{
+        required string Ip = 1;
+        required int32 Port = 2;
+        required string Location = 3;
+        required string Range = 4;
+}

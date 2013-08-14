@@ -9,6 +9,7 @@
 #include "xgclient.h"
 #include "../core/utils.h"
 #include "../core/http.h"
+#include "../core/ep_server.h"
 
 using namespace std;
 using namespace xget;

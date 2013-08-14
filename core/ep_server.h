@@ -40,16 +40,18 @@ namespace xget
         {
                 private:
                         void connectXgCenter();
-                        ev_t *ev;
                 public:
+                        static ev_t *ev;
+                        static void CreateServer(void *data, size_t size);
+//                        {
+//                                ev = NULL;
+//                        }
                         EpollServer(void*);
                         EpollServer(void*, size_t);
                         ~EpollServer();
-                        int AddFileItem(int fd, int mask, void* d, 
+                        static int AddFileItem(int fd, int mask, void* d, 
                                         ev_file_func *rf, ev_file_func *wf);
-                        int DelFileItem(int fd);
-                        virtual void Receive(ev_file_item_t *fi);
-                        virtual void Send(ev_file_item_t *fi);
+                        static int DelFileItem(int fd);
                         void Run();
         };
 }
