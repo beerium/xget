@@ -6,15 +6,17 @@
 namespace xget{
         class XgCenter : public EpollServer 
         {
+                private:
+                        net_buf_t *sendBuf;
+                        net_buf_t *recvBuf;
                 public:
-                XgCenter();
-                ~XgCenter();
+                        XgCenter();
+                        ~XgCenter();
 
-                bool Initialize();
-                static void Receive(ev_file_item_t *fi);
-                static void Send(ev_file_item_t *fi);
-                static void Accept(ev_file_item_t *fi);
-                
+                        bool Initialize();
+                        static void Receive(ev_file_item_t *fi);
+                        static void Send(ev_file_item_t *fi);
+                        static void Accept(ev_file_item_t *fi);
         };
 }
 

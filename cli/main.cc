@@ -15,7 +15,8 @@ int main(int argc, char **argv)
         const char *url = argv[1];
         
         XgClient *cli = new XgClient();
-        cli->Download(url);
+//        cli->Download(url);
+        cli->GetAvailableServerList();
         delete cli;
         
         return 0;

@@ -1,8 +1,75 @@
 #include "ep_server.h"
-#include <string.h>
-#include <sys/epoll.h>
 
 namespace xget {
+        int ExpandBuffer(net_buf_t *buf) 
+        {
+                void *n = realloc(buf->buf, buf->len *2);
+
+                if (n) {
+                        buf->buf = (char*)n;
+                        buf->len = buf->len *2;
+                        return 1;
+                }
+
+                return -1;
+        }
+
+        int ResetBuffer(net_buf_t *buf)
+        {
+                buf->offset = 0;
+                buf->datasize = 0;
+                if (buf->len > NET_BUF_SIZE) {
+                        void *t = realloc(buf->buf, NET_BUF_SIZE);
+                        if (t) {
+                                buf->buf = (char*)t;
+                                buf->len = NET_BUF_SIZE;
+                                return 1;
+                        } else {
+                                return -1;
+                        }
+                }
+
+                return 1;
+        }
+
+        int FreeBuffer(net_buf_t *buf)
+        {
+                if (buf == NULL) return 0;
+                free(buf->buf);
+                free(buf);
+
+                return 1;
+        }
+
+        int ReceiveBuffer(net_buf_t *buf, int fd)
+        {
+             if (buf == NULL || buf->buf == NULL) return -1;   
+
+             int t = 0;
+             while(true) {
+                     int avail_len = buf->len - buf->datasize;
+                     if (avail_len == 0) {
+                             if (!ExpandBuffer(buf)) return -2;
+                             avail_len = buf->len - buf->datasize;
+                     }
+                     
+                     int n = recv(fd, buf->buf + buf->datasize, avail_len, 0);
+                     t += n;
+                     if (n > 0) {
+                             buf->datasize += n;
+                             if (n < avail_len) break;
+                     } else if (n == 0) {
+                             return 0;
+                     } else {
+                             if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                                     if (t > 0) return t;
+                                     return -1;
+                             } else {
+                                     return 0;
+                             }
+                     }
+             }
+        }
 
         ev_t *EpollServer::ev;
 

@@ -8,9 +8,15 @@
 #define EV_READABLE EPOLLIN 
 #define EV_WRITABLE (EPOLLOUT | EPOLLERR | EPOLLHUP)
 #define EV_ALL 3
+#define NET_BUF_SIZE 4096
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <string.h>
+#include <sys/epoll.h>
+#include <errno.h>
 
 namespace xget
 {
@@ -36,6 +42,13 @@ namespace xget
                 int stop;
         } ev_t;
 
+        typedef struct net_buf_s {
+                char *buf;
+                size_t offset;
+                size_t datasize;
+                size_t len;
+        } net_buf_t;
+
         class EpollServer
         {
                 private:
@@ -43,15 +56,14 @@ namespace xget
                 public:
                         static ev_t *ev;
                         static void CreateServer(void *data, size_t size);
-//                        {
-//                                ev = NULL;
-//                        }
+
                         EpollServer(void*);
                         EpollServer(void*, size_t);
                         ~EpollServer();
                         static int AddFileItem(int fd, int mask, void* d, 
                                         ev_file_func *rf, ev_file_func *wf);
                         static int DelFileItem(int fd);
+                        static void ExpandBuffer(net_buf_t *buf);
                         void Run();
         };
 }

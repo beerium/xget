@@ -8,7 +8,7 @@ CORE = ../core/http.o ../core/ep_server.o ../core/utils.o
 OUTPUT = xget 
 
 client: $(CORE) $(CLIENT) 
-	$(LINK) $(CORE) $(CLIENT) -o $(OUTPUT) #-L../bin -lxgcore
+	$(LINK) $(CORE) $(CLIENT) -o $(OUTPUT) -L../bin -lxgcore -lprotobuf
 	cp ./xget ../bin/
 
 clean:

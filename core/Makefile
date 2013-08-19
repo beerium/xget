@@ -5,6 +5,7 @@ LINK = $(CC)
 CORE = http.o ep_server.o
 UTILS = utils.o
 LIB = xget.pb.o
+TEST = testpb.o
 
 OUTPUT = libxgcore.so 
 

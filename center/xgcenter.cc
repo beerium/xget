@@ -31,11 +31,6 @@ int setnonblocking(int sock)
         return 0;
 }
 
-//void foo(ev_file_item_t *fi)
-//{
-//        return;
-//}
-
 bool XgCenter::Initialize()
 {
         int fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -97,5 +92,5 @@ void XgCenter::Receive(ev_file_item_t *fi)
 void XgCenter::Send(ev_file_item_t *fi)
 {
         Agent *a = (Agent*)fi->data; 
-        std::cout << "send !!" << std::endl;
+        std::cout << "send agent: " << a->Id << std::endl;
 }
