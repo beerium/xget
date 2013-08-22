@@ -6,6 +6,7 @@ message GetServerListRequest
         required int32 Id = 1; 
 }
 
+//102
 message GetServerListResponse
 {
         required int32 Id = 1; 
@@ -28,6 +29,7 @@ message RegisterRequest
         required int32 Port = 2;
 }
 
+//202
 message RegisterResponse 
 {
         required int32 Status = 1;
@@ -35,6 +37,7 @@ message RegisterResponse
 
 // for xget cli and server 
 
+//301
 message DownloadRequest
 {
         required string Ip = 1;
@@ -42,3 +45,5 @@ message DownloadRequest
         required string Location = 3;
         required string Range = 4;
 }
+
+

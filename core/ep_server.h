@@ -1,5 +1,5 @@
 #ifndef __EP_SERVER_H__ 
-#define _EP_SERVER_H__
+#define __EP_SERVER_H__
 
 #define EV_CTL_ADD 1
 #define EV_CTL_DEL 2
@@ -48,6 +48,11 @@ namespace xget
                 size_t datasize;
                 size_t len;
         } net_buf_t;
+
+        int ExpandBuffer(net_buf_t *buf);
+        int ResetBuffer(net_buf_t *buf);
+        int FreeBuffer(net_buf_t *buf);
+        int ReceiveBuffer(net_buf_t *buf, int fd);
 
         class EpollServer
         {

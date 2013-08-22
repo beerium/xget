@@ -2,7 +2,7 @@ CC = g++
 CXXFLAGS = -Wall -g
 LINK = $(CC)
 	
-CENTER = xgcenter.o main.o
+CENTER = xgcenter.o agent.o main.o
 
 OUTPUT = xgcenter 
 

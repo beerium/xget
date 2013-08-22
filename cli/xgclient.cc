@@ -21,6 +21,7 @@ using namespace xget;
 
 XgClient::XgClient()
 {
+        sequence = 0;
 }
 
 XgClient::~XgClient()
@@ -33,6 +34,7 @@ void XgClient::Download(const char *url)
        HttpHandler *http = new HttpHandler(url);
        int fileSize = http->GetFileSize();
        cout << "FileSize = " << fileSize << endl;
+       delete(http);
 }
 
 void XgClient::GetAvailableServerList()
@@ -61,17 +63,24 @@ void XgClient::GetAvailableServerList()
         }
 
         GetServerListRequest req; 
-        req.set_id(0);
+        //req.set_id(++sequence);
+        req.set_id(200);
         int cmd = 101;
         string body;
         req.SerializeToString(&body);
         int len = 8 + body.size();
-        cout << len << endl;
 
+        char *buf = (char*)calloc(1, len); 
+        
+        char *p = (char*)(&len);
+        int offset = 0;
+        strncpy(buf + offset, p, 4);
 
-        char *buf = (char*)malloc(len); 
-        sprintf(buf, "%d%d%s",  htonl(len), htonl(cmd), body.data());
+        p = (char*)(&cmd);
+        offset += 4;
+        strncpy(buf + offset, p, 4);
+
+        offset += 4;
+        strncpy(buf + offset, body.data(), body.size());
         write(fd, buf, len); 
-
-//        write(fd, 
 }

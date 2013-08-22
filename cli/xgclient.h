@@ -10,6 +10,7 @@ namespace xget {
         {
                 private :
                         vector<string> serverList;
+                        int sequence;
                 public:
                         XgClient();
                         ~XgClient();

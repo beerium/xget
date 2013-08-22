@@ -24,3 +24,8 @@ xget
 temp
 test
 cpp
+*.swp
+core.*
+vgcore*
+bin
+xgcenter

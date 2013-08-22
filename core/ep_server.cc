@@ -1,4 +1,7 @@
 #include "ep_server.h"
+#include <iostream>
+
+using namespace std;
 
 namespace xget {
         int ExpandBuffer(net_buf_t *buf) 

@@ -113,4 +113,9 @@ namespace xget
         {
                 return NULL;
         }
+
+        HttpHandler::~HttpHandler()
+        {
+
+        }
 }

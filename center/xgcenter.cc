@@ -4,19 +4,21 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include <sys/epoll.h>
-#include "agent.h"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include "../core/xget.pb.h"
 #include "xgcenter.h"
 
+using namespace std;
 using namespace xget;
 
 XgCenter::XgCenter() : EpollServer(NULL)
 {
-
 }
 
 XgCenter::~XgCenter()
 {
-
 }
 
 int setnonblocking(int sock)
@@ -58,15 +60,19 @@ bool XgCenter::Initialize()
                 return false;
         }
 
-
         int r = EpollServer::AddFileItem(fd, EV_READABLE, NULL, XgCenter::Accept, NULL);
         if (r < 0) return false;
 
         return true;
 }
 
+void XgCenter::Close()
+{
+}
+
 void XgCenter::Accept(ev_file_item_t *fi)
 {
+        using namespace xget;
         struct sockaddr client_addr;
 
         socklen_t sin_size = sizeof(client_addr);
@@ -87,7 +93,60 @@ void XgCenter::Receive(ev_file_item_t *fi)
 {
         Agent *a = (Agent*)fi->data;
         std::cout << "receive agent: " << a->Id  << std::endl;
+        int ret = ReceiveBuffer(a->recvBuf, a->Id);
+        cout << "recv ret:" << ret <<  endl;
+
+        cout << endl;  
+        if (ret == 0) return;
+
+        char body[512];
+        memset(body, 0, 512);
+        int *len = (int*)a->recvBuf->buf;
+        int *cmd = (int*)(a->recvBuf->buf + 4);
+        strncpy(body, a->recvBuf->buf + 8, a->recvBuf->datasize);
+
+        cout << "len " << *len << endl;
+        cout << "cmd " << *cmd << endl;
+        cout << "body " ; 
+
+        for (int i = 0; i < (int)a->recvBuf->datasize - 8; i++)
+                cout << hex << ((int)body[i] & 0xFF) << ", ";
+
+        cout << endl << endl;
+
+        a->recvBuf->offset = 0;
+        a->recvBuf->datasize = 0;
+
+        switch (*cmd) {
+        case 101:
+                //cout << "in cmd 101 *** " << endl;
+                SendServerList(a, a->recvBuf->buf + 8, *len - 8);
+
+                break;
+
+        case 201:
+                break;
+        }
 }
+
+void XgCenter::SendServerList(Agent *a, char *bodyStream, int len)
+{
+        char *tmpStr = (char*)calloc(1, len + 1); 
+        strncpy(tmpStr, bodyStream, len);
+
+        string bodyString(tmpStr);
+
+//        string bodyString(bodyStream);
+        GetServerListRequest req;
+        req.ParseFromString(bodyString);
+        cout << "has id ? " << req.has_id() << endl;
+        cout << "GetServerList.ID = " << req.id() << endl;
+        cout << endl << endl;
+
+        free(tmpStr);
+
+}
+
 
 void XgCenter::Send(ev_file_item_t *fi)
 {
